@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Information</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1c1c1c;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        header {
+            background-color: #333;
+            color: #e0e0e0;
+            width: 100%;
+            text-align: center;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        .form-container {
+            background: #2a2a2a;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 800px;
+            margin-top: 5rem;
+            text-align: center;
+        }
+        .form-container h2 {
+            margin-top: 0;
+            font-size: 1.75rem;
+            color: #e0e0e0;
+            font-weight: 400;
+        }
+        .form-group {
+            margin: 1rem 0;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #b0b0b0;
+        }
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 4px;
+            border: 1px solid #555;
+            background: #333;
+            color: #e0e0e0;
+            font-size: 1rem;
+        }
+        .form-group input[type="number"] {
+            -moz-appearance: textfield;
+        }
+        .form-group input[type="number"]::-webkit-inner-spin-button,
+        .form-group input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .button-container {
+            margin-top: 1.5rem;
+        }
+        .button-container button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button-container button:hover {
+            background-color: #0056b3;
+        }
+        .vehicle-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Vehicle Information</h1>
+    </header>
+    <main>
+        <div class="form-container">
+            <h2>Enter Vehicle Information</h2>
+            <form id="vehicle-form" action="page2.html" method="GET">
+                <div class="form-group">
+                    <label for="vehicle-type">Vehicle Type:</label>
+                    <select id="vehicle-type" name="vehicle-type" required>
+                        <option value="">Select Vehicle Type</option>
+                        <option value="Car">Car</option>
+                        <option value="Truck">Truck</option>
+                        <option value="Motorcycle">Motorcycle</option>
+                        <option value="Electric Vehicle">Electric Vehicle</option>
+                    </select>
+                </div>
+                <div class="form-group" id="fuel-type-group">
+                    <label for="fuel-type">Fuel Type:</label>
+                    <select id="fuel-type" name="fuel-type">
+                        <option value="Petrol">Petrol</option>
+                        <option value="Diesel">Diesel</option>
+                        <option value="Hybrid">Hybrid</option>
+                        <option value="CNG">CNG</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="make">Make:</label>
+                    <input type="text" id="make" name="make" required>
+                </div>
+                <div class="form-group">
+                    <label for="model">Model:</label>
+                    <input type="text" id="model" name="model" required>
+                </div>
+                <div class="form-group">
+                    <label for="year">Year:</label>
+                    <input type="number" id="year" name="year" min="1900" max="2099" required>
+                </div>
+                <div class="button-container">
+                    <button type="submit">Next</button>
+                </div>
+            </form>
+            <img src="vehicle_info_image.jpg" alt="Vehicle Information" class="vehicle-image">
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('vehicle-type').addEventListener('change', function() {
+            const vehicleType = this.value;
+            const fuelTypeGroup = document.getElementById('fuel-type-group');
+            const fuelTypeSelect = document.getElementById('fuel-type');
+
+            if (vehicleType === 'Electric Vehicle') {
+                fuelTypeGroup.style.display = 'none';
+                fuelTypeSelect.value = ''; // Clear the value if Electric Vehicle is selected
+            } else {
+                fuelTypeGroup.style.display = 'block';
+            }
+
+            // Remove Hybrid option for Truck and Motorcycle
+            if (vehicleType === 'Truck' || vehicleType === 'Motorcycle') {
+                fuelTypeSelect.querySelectorAll('option[value="Hybrid"]').forEach(option => option.remove());
+                // Remove CNG option for Motorcycle
+                if (vehicleType === 'Motorcycle') {
+                    fuelTypeSelect.querySelectorAll('option[value="CNG"]').forEach(option => option.remove());
+                }
+            } else {
+                // Re-add Hybrid option for other vehicle types
+                if (!fuelTypeSelect.querySelector('option[value="Hybrid"]')) {
+                    const hybridOption = document.createElement('option');
+                    hybridOption.value = 'Hybrid';
+                    hybridOption.textContent = 'Hybrid';
+                    fuelTypeSelect.appendChild(hybridOption);
+                }
+                // Re-add CNG option if not present
+                if (!fuelTypeSelect.querySelector('option[value="CNG"]')) {
+                    const cngOption = document.createElement('option');
+                    cngOption.value = 'CNG';
+                    cngOption.textContent = 'CNG';
+                    fuelTypeSelect.appendChild(cngOption);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

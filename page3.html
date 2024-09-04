@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Recommendations</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1c1c1c;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        header {
+            background-color: #333;
+            color: #e0e0e0;
+            width: 100%;
+            text-align: center;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        .recommendation-container {
+            background: #2a2a2a;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 800px;
+            margin-top: 5rem;
+            text-align: center;
+        }
+        .recommendation-container h2 {
+            margin-top: 0;
+            font-size: 1.75rem;
+            color: #e0e0e0;
+            font-weight: 400;
+        }
+        .recommendation {
+            margin: 1rem 0;
+            text-align: left;
+        }
+        .recommendation h3 {
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+        .positive {
+            color: #4caf50; /* Green */
+        }
+        .negative {
+            color: #f44336; /* Red */
+        }
+        .neutral {
+            color: #ffeb3b; /* Yellow */
+        }
+        .button-container {
+            margin-top: 1.5rem;
+        }
+        .button-container a {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            font-size: 1rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button-container a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Service Recommendations</h1>
+    </header>
+    <main>
+        <div class="recommendation-container">
+            <h2>Your Service Recommendations</h2>
+            <div class="recommendation">
+                <h3>Oil Change</h3>
+                <p id="oil-change-recommendation"></p>
+            </div>
+            <div class="recommendation">
+                <h3>Tire Rotation and Alignment</h3>
+                <p id="tire-rotation-recommendation"></p>
+            </div>
+            <div class="recommendation">
+                <h3>Brake Inspection</h3>
+                <p id="brake-inspection-recommendation"></p>
+            </div>
+            <div class="recommendation">
+                <h3>Fluid Levels</h3>
+                <p id="fluid-levels-recommendation"></p>
+            </div>
+            <div class="recommendation">
+                <h3>Battery Check</h3>
+                <p id="battery-check-recommendation"></p>
+            </div>
+            <div class="recommendation">
+                <h3>Air Filter Replacement</h3>
+                <p id="air-filter-replacement-recommendation"></p>
+            </div>
+            <div class="recommendation">
+                <h3>Spark Plugs</h3>
+                <p id="spark-plugs-recommendation"></p>
+            </div>
+            <div class="recommendation">
+                <h3>Service Center Visit</h3>
+                <p id="service-center-recommendation"></p>
+            </div>
+            <div class="button-container">
+                <a href="index.html">Go Back to Home</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+
+            // Retrieve input values
+            const vehicleType = urlParams.get('vehicle-type');
+            const lastServiceDate = urlParams.get('last-service-date');
+            const currentMileage = parseInt(urlParams.get('current-mileage'));
+            const distanceTravelled = parseInt(urlParams.get('distance-travelled'));
+            const lastOilChange = parseInt(urlParams.get('last-oil-change'));
+            const lastAirFilterReplacement = parseInt(urlParams.get('last-airfilter-replacement'));
+            const tireRotation = urlParams.get('tire-rotation');
+            const indicatorDashboard = urlParams.get('indicator-dashboard');
+            const batteryCheck = urlParams.get('battery-check');
+            const suspenseCondition = urlParams.get('suspense-condition');
+            const headTailLights = urlParams.get('head-tail-lights');
+            const softwareUpdate = urlParams.get('software-update');
+
+            // Recommendations
+            let oilChangeRecommendation = 'Check if mileage is within range or if oil quality is deteriorating.';
+            let tireRotationRecommendation = tireRotation === 'Needed' ? 'Inspect for uneven wear or steering issues.' : 'No immediate action required.';
+            let brakeInspectionRecommendation = 'Listen for squeaking noises or feel for reduced braking performance.';
+            let fluidLevelsRecommendation = 'Check fluid levels and quality; top up or replace as necessary.';
+            let batteryCheckRecommendation = batteryCheck === 'Needed' ? 'Test battery health and connections.' : 'No immediate action required.';
+            let airFilterReplacementRecommendation = 'Replace if clogged or dirty.';
+            let sparkPlugsRecommendation = 'Inspect for wear and replace if necessary.';
+
+            // Determine if a visit to the service center is needed
+            let serviceCenterRecommendation = 'Based on the provided information, you should visit the service center for a thorough check-up.';
+            if (vehicleType === 'Electric Vehicle') {
+                if (lastServiceDate && distanceTravelled > 24000 && batteryCheck === 'Needed') {
+                    serviceCenterRecommendation = 'It is recommended to visit the service center for a battery check and overall inspection.';
+                } else {
+                    serviceCenterRecommendation = 'No immediate need to visit the service center unless other issues are observed.';
+                }
+            } else if (vehicleType === 'Hybrid') {
+                const fuelType = urlParams.get('fuel-type');
+                if (fuelType === 'CNG') {
+                    // Additional CNG related checks
+                    if (lastServiceDate && distanceTravelled > 20000) {
+                        serviceCenterRecommendation = 'Consider visiting the service center for CNG system inspection and maintenance.';
+                    } else {
+                        serviceCenterRecommendation = 'No immediate need to visit the service center unless CNG system issues are observed.';
+                    }
+                } else {
+                    // Petrol or Diesel
+                    if (currentMileage > 10000 || lastOilChange > 6 || batteryCheck === 'Needed') {
+                        serviceCenterRecommendation = 'A visit to the service center is recommended for oil change and battery check.';
+                    } else {
+                        serviceCenterRecommendation = 'No immediate need to visit the service center unless other issues are observed.';
+                    }
+                }
+            } else {
+                // Car/Truck or Motorcycle
+                if (currentMileage > 10000 || lastOilChange > 6 || tireRotation === 'Needed') {
+                    serviceCenterRecommendation = 'It is recommended to visit the service center for oil change and tire rotation.';
+                } else {
+                    serviceCenterRecommendation = 'No immediate need to visit the service center unless other issues are observed.';
+                }
+            }
+
+            // Display recommendations with highlighting
+            const highlightRecommendation = (recommendation, condition) => {
+                switch (condition) {
+                    case 'positive':
+                        return `<span class="positive">${recommendation}</span>`;
+                    case 'negative':
+                        return `<span class="negative">${recommendation}</span>`;
+                    case 'neutral':
+                        return `<span class="neutral">${recommendation}</span>`;
+                    default:
+                        return recommendation;
+                }
+            };
+
+            document.getElementById('oil-change-recommendation').innerHTML = highlightRecommendation(oilChangeRecommendation, 'neutral');
+            document.getElementById('tire-rotation-recommendation').innerHTML = highlightRecommendation(tireRotationRecommendation, tireRotation === 'Needed' ? 'negative' : 'neutral');
+            document.getElementById('brake-inspection-recommendation').innerHTML = highlightRecommendation(brakeInspectionRecommendation, 'neutral');
+            document.getElementById('fluid-levels-recommendation').innerHTML = highlightRecommendation(fluidLevelsRecommendation, 'neutral');
+            document.getElementById('battery-check-recommendation').innerHTML = highlightRecommendation(batteryCheckRecommendation, batteryCheck === 'Needed' ? 'negative' : 'neutral');
+            document.getElementById('air-filter-replacement-recommendation').innerHTML = highlightRecommendation(airFilterReplacementRecommendation, 'neutral');
+            document.getElementById('spark-plugs-recommendation').innerHTML = highlightRecommendation(sparkPlugsRecommendation, 'neutral');
+            document.getElementById('service-center-recommendation').innerHTML = highlightRecommendation(serviceCenterRecommendation, serviceCenterRecommendation.includes('recommend') ? 'negative' : 'neutral');
+        });
+    </script>
+</body>
+</html>

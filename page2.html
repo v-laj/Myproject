@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Parameters</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1c1c1c;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        header {
+            background-color: #333;
+            color: #e0e0e0;
+            width: 100%;
+            text-align: center;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        .form-container {
+            background: #2a2a2a;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 800px;
+            margin-top: 5rem;
+            text-align: center;
+        }
+        .form-container h2 {
+            margin-top: 0;
+            font-size: 1.75rem;
+            color: #e0e0e0;
+            font-weight: 400;
+        }
+        .form-group {
+            margin: 1rem 0;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #b0b0b0;
+        }
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 4px;
+            border: 1px solid #555;
+            background: #333;
+            color: #e0e0e0;
+            font-size: 1rem;
+        }
+        .button-container {
+            margin-top: 1.5rem;
+        }
+        .button-container button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button-container button:hover {
+            background-color: #0056b3;
+        }
+        .form-group img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Service Parameters</h1>
+    </header>
+    <main>
+        <div class="form-container">
+            <h2>Enter Service Parameters</h2>
+            <form id="service-form" action="page3.html" method="GET">
+                <div class="form-group">
+                    <label for="last-service-date">Last Service Date:</label>
+                    <input type="text" id="last-service-date" name="last-service-date" placeholder="dd/mm/yy" required>
+                </div>
+                <div class="form-group">
+                    <label for="current-mileage">Current Mileage (KM):</label>
+                    <input type="number" id="current-mileage" name="current-mileage" required>
+                </div>
+                <div class="form-group">
+                    <label for="distance-travelled">Distance Travelled (KM):</label>
+                    <input type="number" id="distance-travelled" name="distance-travelled" required>
+                </div>
+                <div class="form-group">
+                    <label for="last-oil-change">Last Oil Change (Months):</label>
+                    <input type="number" id="last-oil-change" name="last-oil-change" required>
+                </div>
+                <div class="form-group">
+                    <label for="last-airfilter-replacement">Last Air Filter Replacement (Months):</label>
+                    <input type="number" id="last-airfilter-replacement" name="last-airfilter-replacement" required>
+                </div>
+                <div class="form-group">
+                    <label for="tire-rotation">Tire Rotation and Alignment:</label>
+                    <select id="tire-rotation" name="tire-rotation" required>
+                        <option value="Needed">Needed</option>
+                        <option value="Not Needed">Not Needed</option>
+                        <option value="Unknown">Unknown</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="indicator-dashboard">Any Indicator on Dashboard:</label>
+                    <select id="indicator-dashboard" name="indicator-dashboard" required>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="battery-check">Battery Check:</label>
+                    <select id="battery-check" name="battery-check" required>
+                        <option value="Needed">Needed</option>
+                        <option value="Not Needed">Not Needed</option>
+                        <option value="Unknown">Unknown</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="suspense-condition">Suspension and Starting Condition:</label>
+                    <select id="suspense-condition" name="suspense-condition" required>
+                        <option value="Good">Good</option>
+                        <option value="Needs Attention">Needs Attention</option>
+                        <option value="Unknown">Unknown</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="head-tail-lights">Head and Tail Lights:</label>
+                    <select id="head-tail-lights" name="head-tail-lights" required>
+                        <option value="Working">Working</option>
+                        <option value="Not Working">Not Working</option>
+                        <option value="Unknown">Unknown</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="software-update">Software Update:</label>
+                    <select id="software-update" name="software-update" required>
+                        <option value="Needed">Needed</option>
+                        <option value="Not Needed">Not Needed</option>
+                        <option value="Unknown">Unknown</option>
+                    </select>
+                </div>
+                <div class="button-container">
+                    <button type="submit">Next</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+</html>
